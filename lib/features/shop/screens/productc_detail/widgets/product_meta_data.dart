@@ -51,7 +51,13 @@ class TProductMetaData extends StatelessWidget {
               )),
             */
             const SizedBox(width: TSizes.spaceBtwItems),
-            TProductPriceText(price: controller.getProductPrice(product), isLarge: true),
+            Flexible(
+              child: TProductPriceText(
+                price: controller.getProductPrice(product),
+                isLarge: true,
+              ),
+            ),
+
           ],
         ),
 

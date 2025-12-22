@@ -77,7 +77,7 @@ class ProductDetail extends StatelessWidget { // Màn hình chi tiết sản ph�
                   ),
                   const SizedBox(height: TSizes.spaceBtwItems), // Khoảng cách giữa tiêu đề và nội dung mô tả
                   const ReadMoreText( // Widget hiển thị text có thể mở rộng/thu gọn
-                    'Dự án phát triển ứng dụng bán nông sản nhập khẩu nhằm cung cấp cho người dùng một nền tảng dễ dàng tiếp cận và mua sắm các sản phẩm nông sản chất lượng cao, nguồn gốc rõ ràng.', // Nội dung mô tả (hardcode, nên dùng product.description)
+                    'Sản phẩm chất lượng cao, hàng nhập khẩu chính hãng.', // Nội dung mô tả (hardcode, nên dùng product.description)
                     trimLines: 2, // Số dòng hiển thị khi thu gọn (2 dòng)
                     trimMode: TrimMode.Line, // Chế độ trim theo dòng
                     trimCollapsedText: 'Xem thêm', // Text hiển thị khi đang thu gọn

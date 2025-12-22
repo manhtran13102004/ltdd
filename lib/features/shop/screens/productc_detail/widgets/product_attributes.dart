@@ -91,7 +91,7 @@ class TProductAttributes extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TSectionHeading(
-                    title: attribute.name ?? '',
+                    title: 'Loại',
                     textColor: TColors.dark,
                     showActionButton: false,
                   ),

@@ -9,6 +9,7 @@ class TProductPriceText extends StatelessWidget {
     this.isLarge = false,
     this.lineThrough = false,
     this.isSmall = false,
+
   });
 
   final String currencySign, price;
@@ -22,7 +23,9 @@ class TProductPriceText extends StatelessWidget {
     return Text(
       price + currencySign,
       maxLines: maxLines,
-      overflow: TextOverflow.ellipsis,
+      overflow: isLarge ? TextOverflow.visible : TextOverflow.ellipsis,
+      softWrap: true,
+
       style: isLarge
           ? Theme.of(context).textTheme.headlineMedium!.apply(
         decoration: lineThrough ? TextDecoration.lineThrough : null,
