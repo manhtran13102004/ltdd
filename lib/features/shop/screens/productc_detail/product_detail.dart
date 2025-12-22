@@ -38,7 +38,7 @@ class ProductDetail extends StatelessWidget { // Màn hình chi tiết sản ph�
     });
 
     return Scaffold( // Scaffold - widget cơ bản nhất của Material Design
-      bottomNavigationBar: const TButtonAddToCart(), // Bottom navigation bar chứa nút thêm vào giỏ hàng
+      bottomNavigationBar: TButtonAddToCart(product: product), // Bottom navigation bar chứa nút thêm vào giỏ hàng
       body: SingleChildScrollView( // SingleChildScrollView - cho phép cuộn nội dung
         child: Column( // Column - sắp xếp các widget theo chiều dọc
           children: [ // Danh sách các widget con

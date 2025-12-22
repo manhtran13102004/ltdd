@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart'; // Import Flutter Material - cung cấp các widget cơ bản
 import 'package:iconsax/iconsax.dart'; // Import icon pack Iconsax
+import 'package:get/get.dart';
 import 'package:project/common/widgets/appbar/appbar.dart'; // Import widget AppBar chung
 import 'package:project/common/widgets/icons/t_circular_icon.dart'; // Import widget icon tròn (có thể không dùng trực tiếp)
 import 'package:project/common/widgets/layouts/grid_layout.dart'; // Import widget layout dạng grid
@@ -19,6 +20,7 @@ import '../../../../common/widgets/texts/t_brand_title_with_verified_icon.dart';
 import '../../../../utils/constants/colors.dart'; // Import màu sắc chuẩn
 import '../../../../utils/helpers/helper_functions.dart'; // Import các hàm helper
 import '../../controllers/category_controller.dart'; // Import controller xử lý logic danh mục
+import '../cart/cart.dart';
 
 class StoreScreen extends StatelessWidget { // Màn hình Store - StatelessWidget
   const StoreScreen({super.key}); // Constructor với key từ parent widget
@@ -36,7 +38,7 @@ class StoreScreen extends StatelessWidget { // Màn hình Store - StatelessWidge
           ),
           actions: [ // Danh sách các action button trên AppBar
             TCartCounterIcon( // Widget icon giỏ hàng với số lượng
-              onPressed: () {}, // Callback khi click (chưa được implement)
+              onPressed: () => Get.to(() => const CartScreen()), // Callback khi click
               iconColor: TColors.black, // Màu icon đen
               iconColor2: TColors.white, // Màu icon thứ 2 trắng (có thể là màu badge)
             )

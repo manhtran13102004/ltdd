@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart'; // Import GetX core (có thể 
 import 'package:iconsax/iconsax.dart'; // Import icon pack Iconsax (có thể không dùng trực tiếp)
 import 'package:project/common/widgets/appbar/appbar.dart'; // Import widget AppBar chung
 import 'package:project/features/shop/screens/cart/widgets/cart_items.dart'; // Import widget hiển thị danh sách items trong giỏ hàng
+import 'package:project/features/shop/controllers/cart/cart_controller.dart';
 import 'package:project/utils/constants/colors.dart'; // Import màu sắc chuẩn
 import 'package:project/utils/constants/image_strings.dart'; // Import đường dẫn hình ảnh chuẩn (có thể không dùng trực tiếp)
 import 'package:project/utils/constants/sizes.dart'; // Import kích thước chuẩn
@@ -23,6 +24,7 @@ class CartScreen extends StatelessWidget { // Màn hình giỏ hàng - Stateless
 
   @override
   Widget build(BuildContext context) { // Hàm build - xây dựng UI
+    final controller = CartController.instance;
     return Scaffold( // Scaffold - widget cơ bản nhất của Material Design
       appBar: TAppBar( showBackArrow: true, title: Text('Giỏ Hàng', style: Theme.of(context).textTheme.headlineSmall,),), // AppBar với nút back và tiêu đề "Giỏ Hàng"
       body: const Padding( // Padding xung quanh nội dung
@@ -30,17 +32,21 @@ class CartScreen extends StatelessWidget { // Màn hình giỏ hàng - Stateless
         child: TCartItems(), // Widget hiển thị danh sách items trong giỏ hàng
 
       ),
-      bottomNavigationBar: Padding( // Padding xung quanh nút checkout
-        padding: const EdgeInsets.all(TSizes.defaultSpace), // Padding chuẩn cho tất cả các cạnh
-        child: ElevatedButton( // Nút "Check out" (nút chính, có màu nền)
-          onPressed: () => Get.to(() => const CheckoutScreen()), // Khi click, navigate đến màn hình checkout
-          style: ElevatedButton.styleFrom( // Định nghĩa style cho nút
-              backgroundColor: TColors.primary, // Màu nền primary
-              side: const BorderSide(color: TColors.primary) // Viền màu primary
+      bottomNavigationBar: Obx(() {
+        final hasItems = controller.cartItems.isNotEmpty;
+        final totalText = controller.formatCurrency(controller.totalPrice);
+        return Padding( // Padding xung quanh nút checkout
+          padding: const EdgeInsets.all(TSizes.defaultSpace), // Padding chuẩn cho tất cả các cạnh
+          child: ElevatedButton( // Nút "Check out" (nút chính, có màu nền)
+            onPressed: hasItems ? () => Get.to(() => const CheckoutScreen()) : null, // Khi click, navigate đến màn hình checkout
+            style: ElevatedButton.styleFrom( // Định nghĩa style cho nút
+                backgroundColor: TColors.primary, // Màu nền primary
+                side: const BorderSide(color: TColors.primary) // Viền màu primary
+            ),
+            child: Text('Check out $totalText' ), // Text hiển thị "Check out" và tổng tiền
           ),
-          child: const Text('Check out \500.000 VND' ), // Text hiển thị "Check out" và tổng tiền (hardcode, nên tính từ giỏ hàng)
-        ),
-      ),
+        );
+      }),
     );
   }
 }

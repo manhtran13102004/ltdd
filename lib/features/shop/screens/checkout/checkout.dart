@@ -6,6 +6,7 @@ import 'package:get/get_core/src/get_main.dart'; // Import GetX core (có thể 
 import 'package:project/features/shop/screens/checkout/widgets/billing_address_section.dart'; // Import widget section địa chỉ thanh toán
 import 'package:project/features/shop/screens/checkout/widgets/billing_amount_section.dart'; // Import widget section tổng tiền thanh toán
 import 'package:project/features/shop/screens/checkout/widgets/billing_payment_section.dart'; // Import widget section phương thức thanh toán
+import 'package:project/features/shop/controllers/cart/cart_controller.dart';
 import 'package:project/utils/constants/colors.dart'; // Import màu sắc chuẩn
 import 'package:project/utils/constants/image_strings.dart'; // Import đường dẫn hình ảnh chuẩn
 
@@ -24,6 +25,7 @@ class CheckoutScreen extends StatelessWidget { // Màn hình thanh toán - State
 
   @override
   Widget build(BuildContext context) { // Hàm build - xây dựng UI
+    final cartController = CartController.instance;
     final dark = THelperFunctions.isDarkMode(context); // Kiểm tra chế độ dark mode
     return Scaffold( // Scaffold - widget cơ bản nhất của Material Design
       appBar: TAppBar( showBackArrow: true, title: Text('Thanh Toán', style: Theme.of(context).textTheme.headlineSmall,),), // AppBar với nút back và tiêu đề "Thanh Toán"
@@ -70,19 +72,23 @@ class CheckoutScreen extends StatelessWidget { // Màn hình thanh toán - State
 
       bottomNavigationBar: Padding( // Padding xung quanh nút thanh toán
         padding: const EdgeInsets.all(TSizes.defaultSpace), // Padding chuẩn cho tất cả các cạnh
-        child: ElevatedButton( // Nút "Check out" (nút chính, có màu nền)
-          onPressed: () => Get.to(() => SuccessScreen( // Khi click, navigate đến màn hình thành công
-            image: TImages.successfulPaymentIcon, // Hình ảnh minh họa thanh toán thành công
-            title: 'Thanh toán thành công', // Tiêu đề "Thanh toán thành công"
-            subtitle: 'Đơn hàng của bạn sẽ được vận chuyển sớm', // Phụ đề thông báo
-            onPressed: () => Get.offAll(() => const NavigationMenu()), // Callback khi click nút trên màn hình thành công - quay về màn hình chính và xóa tất cả màn hình trước đó
-          )),
-          style: ElevatedButton.styleFrom( // Định nghĩa style cho nút
-              backgroundColor: TColors.primary, // Màu nền primary
-              side: const BorderSide(color: TColors.primary) // Viền màu primary
-          ),
-          child: const Text('Check out \500.000 VND' ), // Text hiển thị "Check out" và tổng tiền (hardcode, nên tính từ giỏ hàng)
-        ),
+        child: Obx(() {
+          final hasItems = cartController.cartItems.isNotEmpty;
+          final totalText = cartController.formatCurrency(cartController.orderTotal);
+          return ElevatedButton( // Nút "Check out" (nút chính, có màu nền)
+            onPressed: hasItems ? () => Get.to(() => SuccessScreen( // Khi click, navigate đến màn hình thành công
+              image: TImages.successfulPaymentIcon, // Hình ảnh minh họa thanh toán thành công
+              title: 'Thanh toán thành công', // Tiêu đề "Thanh toán thành công"
+              subtitle: 'Đơn hàng của bạn sẽ được vận chuyển sớm', // Phụ đề thông báo
+              onPressed: () => Get.offAll(() => const NavigationMenu()), // Callback khi click nút trên màn hình thành công - quay về màn hình chính và xóa tất cả màn hình trước đó
+            )) : null,
+            style: ElevatedButton.styleFrom( // Định nghĩa style cho nút
+                backgroundColor: TColors.primary, // Màu nền primary
+                side: const BorderSide(color: TColors.primary) // Viền màu primary
+            ),
+            child: Text('Check out $totalText' ), // Text hiển thị "Check out" và tổng tiền
+          );
+        }),
       ),
 
     );

@@ -13,6 +13,7 @@ import '../../../../utils/constants/colors.dart'; // Import màu sắc chuẩn
 import '../../../../utils/constants/image_strings.dart'; // Import đường dẫn hình ảnh chuẩn (có thể không dùng trực tiếp)
 import '../../../../utils/constants/sizes.dart'; // Import kích thước chuẩn
 import '../../../authentication/controllers.onboarding/profile_controller.dart'; // Import ProfileController
+import '../../../shop/screens/cart/cart.dart';
 import '../../../shop/screens/order/order.dart'; // Import màn hình đơn hàng
 import '../address/address.dart'; // Import màn hình địa chỉ
 import '../profile/profile.dart'; // Import màn hình profile
@@ -45,7 +46,7 @@ class SettingsScreen extends StatelessWidget { // Màn hình Settings - Stateles
                   const SizedBox(height: TSizes.spaceBtwItems,), // Khoảng cách giữa tiêu đề và menu items
 
                   TSettingsMenuTitle(icon: Iconsax.safe_home, title: 'My Address', subTitle: 'Thông tin vận chuyển', onTap: () => Get.to(() => const UserAddressScreen())), // Menu item "My Address" - khi click sẽ navigate đến màn hình địa chỉ
-                  TSettingsMenuTitle(icon: Iconsax.shopping_cart, title: 'My Cart', subTitle: 'Giỏ hàng của tôi', onTap: (){},), // Menu item "My Cart" - callback chưa được implement
+                  TSettingsMenuTitle(icon: Iconsax.shopping_cart, title: 'My Cart', subTitle: 'Giỏ hàng của tôi', onTap: () => Get.to(() => const CartScreen())), // Menu item "My Cart"
                   TSettingsMenuTitle(icon: Iconsax.bag_tick, title: 'My Orders', subTitle: 'Đơn hàng của tôi',onTap: () => Get.to(() => const OrderScreen ())), // Menu item "My Orders" - khi click sẽ navigate đến màn hình đơn hàng
                   TSettingsMenuTitle(icon: Iconsax.bank, title: 'Bank Account', subTitle: 'Set shopping delivery address', onTap: (){},), // Menu item "Bank Account" - callback chưa được implement (subTitle có thể sai)
                   TSettingsMenuTitle(icon: Iconsax.discount_shape, title: 'My Coupons', subTitle: 'Set shopping delivery address', onTap: (){},), // Menu item "My Coupons" - callback chưa được implement (subTitle có thể sai)

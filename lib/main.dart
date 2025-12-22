@@ -5,6 +5,7 @@ import 'package:project/app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:project/firebase_options.dart';
 import 'package:project/repository/auth_repo/AuthenticationRepository.dart';
+import 'package:project/features/shop/controllers/cart/cart_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 
@@ -35,7 +36,10 @@ Future<void> main() async {
     // Khởi tạo Firebase theo nền tảng (Android / iOS / Web)
     // DefaultFirebaseOptions được sinh ra từ flutterfire configure
   ).then(
-          (value)=> Get.put(AuthenticationRepository())
+          (value) {
+        Get.put(AuthenticationRepository());
+        Get.put(CartController());
+      }
     // Sau khi Firebase khởi tạo xong:
     // Đưa AuthenticationRepository vào GetX dependency injection
     // => Có thể gọi ở bất kỳ đâu trong app bằng Get.find()
