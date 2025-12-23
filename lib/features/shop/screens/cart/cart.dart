@@ -7,7 +7,8 @@ import 'package:project/features/shop/screens/cart/widgets/cart_items.dart'; // 
 import 'package:project/utils/constants/colors.dart'; // Import màu sắc chuẩn
 import 'package:project/utils/constants/image_strings.dart'; // Import đường dẫn hình ảnh chuẩn (có thể không dùng trực tiếp)
 import 'package:project/utils/constants/sizes.dart'; // Import kích thước chuẩn
-
+import '../../controllers/cart/cart_controller.dart'; // ← THÊM DÒNG NÀY (đường dẫn tùy theo chỗ mày đặt file CartController)
+import '../cart/widgets/cart_items_dynamic.dart'; // ← THÊM DÒNG NÀY (đường dẫn tùy chỗ mày tạo file)
 import '../../../../common/widgets/icons/t_circular_icon.dart'; // Import widget icon tròn (có thể không dùng trực tiếp)
 import '../../../../common/widgets/images/t_rounded_image.dart'; // Import widget hình ảnh bo góc (có thể không dùng trực tiếp)
 import '../../../../common/widgets/products/cart/add_remove_button.dart'; // Import widget nút tăng/giảm số lượng (có thể không dùng trực tiếp)
@@ -17,29 +18,41 @@ import '../../../../common/widgets/texts/product_title_text.dart'; // Import wid
 import '../../../../common/widgets/texts/t_brand_title_with_verified_icon.dart'; // Import widget hiển thị tên thương hiệu với icon verified (có thể không dùng trực tiếp)
 import '../../../../utils/helpers/helper_functions.dart'; // Import các hàm helper (có thể không dùng trực tiếp)
 import '../checkout/checkout.dart'; // Import màn hình checkout
-
-class CartScreen extends StatelessWidget { // Màn hình giỏ hàng - StatelessWidget
-  const CartScreen({Key? key}) : super (key : key); // Constructor với key từ parent widget
+class CartScreen extends StatelessWidget {
+  const CartScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) { // Hàm build - xây dựng UI
-    return Scaffold( // Scaffold - widget cơ bản nhất của Material Design
-      appBar: TAppBar( showBackArrow: true, title: Text('Giỏ Hàng', style: Theme.of(context).textTheme.headlineSmall,),), // AppBar với nút back và tiêu đề "Giỏ Hàng"
-      body: const Padding( // Padding xung quanh nội dung
-        padding: EdgeInsets.all(TSizes.defaultSpace), // Padding chuẩn cho tất cả các cạnh
-        child: TCartItems(), // Widget hiển thị danh sách items trong giỏ hàng
+  Widget build(BuildContext context) {
+    final cartController = Get.find<CartController>();
 
+    return Scaffold(
+      appBar: TAppBar(
+        showBackArrow: true,
+        title: Text('Giỏ Hàng', style: Theme.of(context).textTheme.headlineSmall),
       ),
-      bottomNavigationBar: Padding( // Padding xung quanh nút checkout
-        padding: const EdgeInsets.all(TSizes.defaultSpace), // Padding chuẩn cho tất cả các cạnh
-        child: ElevatedButton( // Nút "Check out" (nút chính, có màu nền)
-          onPressed: () => Get.to(() => const CheckoutScreen()), // Khi click, navigate đến màn hình checkout
-          style: ElevatedButton.styleFrom( // Định nghĩa style cho nút
-              backgroundColor: TColors.primary, // Màu nền primary
-              side: const BorderSide(color: TColors.primary) // Viền màu primary
-          ),
-          child: const Text('Check out \500.000 VND' ), // Text hiển thị "Check out" và tổng tiền (hardcode, nên tính từ giỏ hàng)
-        ),
+      body: Padding(
+        padding: const EdgeInsets.all(TSizes.defaultSpace),
+        child: Obx(() {
+          if (cartController.cartItems.isEmpty) {
+            return const Center(child: Text('Giỏ hàng trống'));
+          }
+          return const TCartItemsDynamic(); // Dùng list động
+        }),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(TSizes.defaultSpace),
+        child: Obx(() {
+          // Tính tổng tiền đơn giản (giả sử dùng giá thấp nhất)
+          double total = cartController.cartItems.fold(0, (sum, item) {
+            double price = double.tryParse(cartController.getProductLowesPrice(item.product)) ?? 0;
+            return sum + (price * item.quantity);
+          });
+          return ElevatedButton(
+            onPressed: () => Get.to(() => const CheckoutScreen()),
+            style: ElevatedButton.styleFrom(backgroundColor: TColors.primary),
+            child: Text('Check out ${total.toStringAsFixed(0)} VND'),
+          );
+        }),
       ),
     );
   }

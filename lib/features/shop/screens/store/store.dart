@@ -36,7 +36,7 @@ class StoreScreen extends StatelessWidget { // Màn hình Store - StatelessWidge
           ),
           actions: [ // Danh sách các action button trên AppBar
             TCartCounterIcon( // Widget icon giỏ hàng với số lượng
-              onPressed: () {}, // Callback khi click (chưa được implement)
+              // onPressed: () {}, // Callback khi click (chưa được implement)
               iconColor: TColors.black, // Màu icon đen
               iconColor2: TColors.white, // Màu icon thứ 2 trắng (có thể là màu badge)
             )

@@ -38,7 +38,7 @@ class ProductDetail extends StatelessWidget { // Màn hình chi tiết sản ph�
     });
 
     return Scaffold( // Scaffold - widget cơ bản nhất của Material Design
-      bottomNavigationBar: const TButtonAddToCart(), // Bottom navigation bar chứa nút thêm vào giỏ hàng
+      bottomNavigationBar: TButtonAddToCart(product: product), // ← Truyền product vào đây // Bottom navigation bar chứa nút thêm vào giỏ hàng
       body: SingleChildScrollView( // SingleChildScrollView - cho phép cuộn nội dung
         child: Column( // Column - sắp xếp các widget theo chiều dọc
           children: [ // Danh sách các widget con
@@ -58,15 +58,35 @@ class ProductDetail extends StatelessWidget { // Màn hình chi tiết sản ph�
                     product: product, // Truyền product vào widget
                   ),
                   const SizedBox(height: TSizes.spaceBtwSections), // Khoảng cách giữa attributes và nút Check Out
-                  SizedBox( // SizedBox để giới hạn kích thước nút
-                    width: double.infinity, // Chiều rộng bằng toàn bộ màn hình
-                    child: ElevatedButton( // Nút "Check Out" (có thể không cần thiết vì đã có bottom navigation bar)
-                      onPressed: () {}, // Callback khi click (chưa được implement)
-                      style: ElevatedButton.styleFrom( // Định nghĩa style cho nút
-                        backgroundColor: TColors.primary, // Màu nền primary
-                        side: const BorderSide(color: TColors.primary), // Viền màu primary
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Hiện dialog thanh toán thành công
+                        Get.dialog(
+                          AlertDialog(
+                            title: const Text('Thanh toán thành công! 🎉'),
+                            content: const Text('Đơn hàng của bạn đã được đặt thành công.\nCảm ơn bạn đã mua sắm!'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Get.back(); // Đóng dialog
+                                  // Nếu muốn quay về trang chủ hoặc xóa giỏ hàng thì thêm ở đây
+                                  // ví dụ: Get.offAll(() => const HomeScreen());
+                                  // hoặc: cartController.clearCart();
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                          barrierDismissible: false, // Không cho bấm ngoài để đóng (tùy mày, nếu muốn cho thì bỏ dòng này)
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: TColors.primary,
+                        side: const BorderSide(color: TColors.primary),
                       ),
-                      child: const Text('Check Out'), // Text hiển thị "Check Out"
+                      child: const Text('Check Out'),
                     ),
                   ),
                   const SizedBox(height: TSizes.spaceBtwSections), // Khoảng cách giữa nút Check Out và section mô tả

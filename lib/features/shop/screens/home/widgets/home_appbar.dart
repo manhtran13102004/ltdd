@@ -10,7 +10,7 @@ class THomeAppBar extends StatelessWidget {
   const THomeAppBar({
     super.key,
   });
-
+  // C:\Users\manht\Downloads\App_banhangnongsan-main\lib\features\shop\screens\home\widgets\home_appbar.dart
   @override
   Widget build(BuildContext context) {
     return TAppBar(
@@ -22,7 +22,7 @@ class THomeAppBar extends StatelessWidget {
         ],
       ),
       actions: [
-        TCartCounterIcon(onPressed: (){},iconColor: TColors.white, iconColor2: TColors.black,)
+        TCartCounterIcon(iconColor: TColors.white, iconColor2: TColors.black,)
       ],
     );
   }
