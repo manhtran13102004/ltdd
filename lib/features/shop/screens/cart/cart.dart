@@ -42,13 +42,63 @@ class CartScreen extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(TSizes.defaultSpace),
         child: Obx(() {
-          // Tính tổng tiền đơn giản (giả sử dùng giá thấp nhất)
+          // Tính tổng tiền
           double total = cartController.cartItems.fold(0, (sum, item) {
             double price = double.tryParse(cartController.getProductLowesPrice(item.product)) ?? 0;
             return sum + (price * item.quantity);
           });
+
+          // Nếu giỏ rỗng thì disable nút
           return ElevatedButton(
-            onPressed: () => Get.to(() => const CheckoutScreen()),
+            onPressed: cartController.cartItems.isEmpty
+                ? null
+                : () {
+              // HIỆN DIALOG THANH TOÁN THÀNH CÔNG
+              Get.dialog(
+                AlertDialog(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  title: const Row(
+                    children: [
+                      Icon(Icons.check_circle, color: Colors.green, size: 30),
+                      SizedBox(width: 10),
+                      Text('Thanh toán thành công! 🎉'),
+                    ],
+                  ),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Tổng tiền: ${total.toStringAsFixed(0)} VND',
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text('Đơn hàng của bạn đã được ghi nhận.\nCảm ơn bạn đã mua sắm tại cửa hàng chúng tôi! ❤️'),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Get.back(); // Đóng dialog
+
+                        // XÓA SẠCH GIỎ HÀNG SAU KHI THANH TOÁN
+                        cartController.cartItems.clear();
+                        cartController.cartItems.refresh();
+
+                        // Thông báo thêm nếu muốn
+                        Get.snackbar(
+                          'Hoàn tất!',
+                          'Giỏ hàng đã được làm mới',
+                          backgroundColor: Colors.green.withOpacity(0.8),
+                          colorText: Colors.white,
+                        );
+                      },
+                      child: const Text('OK', style: TextStyle(fontSize: 16)),
+                    ),
+                  ],
+                ),
+                barrierDismissible: false, // Không cho bấm ngoài để đóng
+              );
+            },
             style: ElevatedButton.styleFrom(backgroundColor: TColors.primary),
             child: Text('Check out ${total.toStringAsFixed(0)} VND'),
           );
