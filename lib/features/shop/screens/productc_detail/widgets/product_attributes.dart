@@ -29,53 +29,86 @@ class TProductAttributes extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
          if(controller.selectedVariation.value.id.isNotEmpty)
-          TRoundedContainer(
-            padding: const EdgeInsets.all(TSizes.md),
-            backgroundColor: dark ? TColors.darkGrey : TColors.grey,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const TSectionHeading(textColor: TColors.black, title: 'Variation',showActionButton: false,),
-                    const SizedBox(width: TSizes.spaceBtwItems,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const TProductTitleText(title: 'Giá   ', smallSize: true,),
-                            if(controller.selectedVariation.value.salePrice>0)
-                            Text('${controller.selectedVariation.value.price.toStringAsFixed(0)}.000',
-                            style: Theme.of(context).textTheme.titleSmall!.apply(decoration: TextDecoration.lineThrough),),
+           TRoundedContainer(
+             padding: const EdgeInsets.all(TSizes.md),
+             backgroundColor: dark ? TColors.darkGrey : TColors.grey,
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.start, // Quan trọng: align left để giá xuống dòng đẹp
+               children: [
+                 const TSectionHeading(
+                   textColor: TColors.black,
+                   title: 'Variation',
+                   showActionButton: false,
+                 ),
+                 const SizedBox(height: TSizes.spaceBtwItems),
 
-                            const SizedBox(width: TSizes.spaceBtwItems,),
-                            TProductPriceText(price: controller.getVariationPrice(), isSmall: true, )
+                 // Phần Giá - fix overflow bằng Column + Expanded
+                 Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     Row(
+                       crossAxisAlignment: CrossAxisAlignment.center,
+                       children: [
+                         const TProductTitleText(title: 'Giá:', smallSize: true),
+                         if (controller.selectedVariation.value.salePrice > 0)
+                           Padding(
+                             padding: const EdgeInsets.only(left: TSizes.sm),
+                             child: Text(
+                               '${controller.selectedVariation.value.price.toStringAsFixed(0)}.000',
+                               style: Theme.of(context).textTheme.titleSmall!.apply(
+                                 decoration: TextDecoration.lineThrough,
+                               ),
+                             ),
+                           ),
+                       ],
+                     ),
+                     const SizedBox(height: 4),
+                     // Giá chính (range) được wrap Expanded để tự co giãn và xuống dòng nếu cần
+                     Padding(
+                       padding: const EdgeInsets.only(left: TSizes.md), // Thụt vào cho đẹp
+                       child: TProductPriceText(
+                         price: controller.getVariationPrice(),
+                         isSmall: false, // Để to hơn tí cho nổi bật
+                         // Nếu widget TProductPriceText của mày hỗ trợ maxLines và overflow thì thêm:
+                         // maxLines: 2,
+                         // overflow: TextOverflow.ellipsis,
+                       ),
+                     ),
+                   ],
+                 ),
 
-                          ],
-                        ),
-                        Row(
-                          children: [
-                             const TProductTitleText(title: 'Trạng thái   ', smallSize: true,),
-                             Text(controller.variationStockStatus.value,style: Theme.of(context).textTheme.titleMedium,),
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
+                 const SizedBox(height: TSizes.spaceBtwItems),
 
-                TProductTitleText(
-                    title: controller.selectedVariation.value.description ?? '',
-                    smallSize: true,
-                    maxLines: 4,
+                 // Phần Trạng thái
+                 Row(
+                   children: [
+                     const TProductTitleText(title: 'Trạng thái:', smallSize: true),
+                     const SizedBox(width: TSizes.sm),
+                     Expanded( // Để text trạng thái không làm tràn nếu dài
+                       child: Text(
+                         controller.variationStockStatus.value,
+                         style: Theme.of(context).textTheme.titleMedium,
+                         overflow: TextOverflow.ellipsis,
+                         maxLines: 1,
+                       ),
+                     ),
+                   ],
+                 ),
 
-                ),
+                 const SizedBox(height: TSizes.spaceBtwItems),
 
-
-
-              ],
-            ),
-          ),
+                 // Mô tả variation
+                 if (controller.selectedVariation.value.description != null &&
+                     controller.selectedVariation.value.description!.isNotEmpty)
+                   TProductTitleText(
+                     title: controller.selectedVariation.value.description!,
+                     smallSize: true,
+                     maxLines: 4,
+                     // overflow: TextOverflow.ellipsis,
+                   ),
+               ],
+             ),
+           ),
 
 
 

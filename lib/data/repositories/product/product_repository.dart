@@ -40,4 +40,19 @@ class ProductRepository extends GetxController { // Repository xử lý CRUD s�
       return []; // Trả về list rỗng khi có lỗi
     }
   }
+  Future<List<ProductModel>> getAllProducts() async {
+    try {
+      // Lấy tất cả sản phẩm từ collection 'Products' trong Firestore
+      final snapshot = await FirebaseFirestore.instance.collection('Products').get();
+
+      // Chuyển dữ liệu từ Firestore thành list ProductModel
+      final products = snapshot.docs.map((doc) => ProductModel.fromSnapshot(doc)).toList();
+
+      return products;
+    } catch (e) {
+      // Nếu lỗi thì báo ra console và trả list rỗng
+      print('Lỗi khi lấy tất cả sản phẩm: $e');
+      return [];
+    }
+  }
 }

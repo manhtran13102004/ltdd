@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-
+import 'package:get/get.dart'; // ← THÊM DÒNG NÀY ĐỂ DÙNG Get.to
+import '../../../features/shop/screens/search/search_screen.dart'; // ← THÊM DÒNG NÀY ĐỂ DÙNG SearchScreen (đường dẫn tùy theo chỗ mày tạo file)
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/device/device_utility.dart';
@@ -28,7 +29,7 @@ class TSearchContainer extends StatelessWidget {
     final dark = THelperFunctions.isDarkMode(context);
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: onTap ?? () => Get.to(() => const SearchScreen()),
       child: Padding(
         padding: padding,
         child: Container(

@@ -38,7 +38,16 @@ class THomeCategories extends StatelessWidget {
               child: TVerticalImageText(
                 image: category.image,  // Passing the image URL (String)
                 title: category.name,
-                onTap: () => Get.to(() => const SubCategoriesScreen()),
+                onTap: () {
+                  // IN RA CONSOLE ĐỂ DEBUG
+                  print('=== ĐÃ BẤM VÀO DANH MỤC ===');
+                  print('Tên danh mục: ${category.name}');
+                  print('ID danh mục: ${category.id}');
+                  print('=============================');
+
+                  // Sau đó mới nhảy màn hình
+                  Get.to(() => SubCategoriesScreen(category: category));
+                },
               ),
             );
 
