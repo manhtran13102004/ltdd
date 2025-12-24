@@ -121,6 +121,29 @@ class ProductController extends GetxController {
     }
   }
 
+
+  // lib/features/shop/controllers/product/product_controller.dart
+
+// ... trong class ProductController
+
+// MỚI: Filter sản phẩm theo brandId (dùng cho màn hình BrandProducts)
+  Future<void> fetchProductsForBrand(String brandId) async {
+    try {
+      isLoading.value = true;
+      final products = await productRepository.getProductsByBrandId(brandId);
+      allProducts.assignAll(products); // Cập nhật allProducts để UI dùng chung
+    } catch (e) {
+      Get.snackbar('Lỗi', 'Không tải được sản phẩm của chi nhánh này');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+// Nếu muốn filter local (khi đã load allProducts rồi) – dùng cho trường hợp offline hoặc nhanh hơn
+  List<ProductModel> getProductsByBrandLocal(String brandId) {
+    return allProducts.where((p) => p.brandId == brandId).toList();
+  }
+
   String? calculatorSalePercentage(double originalPrice, double? salePrice) {
     if (salePrice == null || salePrice <= 0.0) return null;
     if (originalPrice <= 0) return null;

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project/features/shop/models/product_atrribute.dart';
+import 'package:project/features/shop/models/product_attribute_model.dart';
 import 'package:project/features/shop/models/product_variation.dart';
 import 'brand_model.dart';
 

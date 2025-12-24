@@ -20,6 +20,11 @@ class SubCategoriesScreen extends StatelessWidget {
     final productController = Get.isRegistered<ProductController>()
         ? Get.find<ProductController>()
         : Get.put(ProductController());
+    // Nếu chưa có sản phẩm nào → load lại
+    if (productController.allProducts.isEmpty) {
+      productController.fetchAllProducts(); // ← THÊM DÒNG NÀY
+    }
+
 
     // Lọc sản phẩm thuộc đúng danh mục này
     final products = productController.allProducts
