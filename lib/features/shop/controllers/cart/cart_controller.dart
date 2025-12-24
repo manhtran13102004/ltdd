@@ -2,6 +2,9 @@ import 'package:flutter/material.dart'; // ← THÊM DÒNG NÀY ĐỂ DÙNG Colo
 import 'package:get/get.dart';
 import 'package:project/features/shop/models/product_model.dart';
 import 'package:project/utils/constants/enums.dart'; // ← THÊM DÒNG NÀY ĐỂ DÙNG ProductType
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // ← THÊM DÒNG NÀY ĐỂ DÙNG FirebaseAuth
+
 class CartItem {
   final ProductModel product;
   int quantity;
@@ -17,7 +20,7 @@ class CartController extends GetxController {
   // Thêm sản phẩm vào giỏ (nếu đã có thì tăng số lượng)
   void addToCart(ProductModel product, int quantity) {
     final existingItem = cartItems.firstWhereOrNull(
-      (item) => item.product.id == product.id,
+          (item) => item.product.id == product.id,
     );
 
     if (existingItem != null) {
@@ -68,5 +71,40 @@ class CartController extends GetxController {
     }
 
     return smallestPrice.toStringAsFixed(0);
+  }
+
+  Future<void> checkout() async {
+    try {
+      // Tính tổng tiền
+      double totalPrice = cartItems.fold(0, (sum, item) {
+        double price = double.tryParse(getProductLowesPrice(item.product)) ?? 0;
+        return sum + (price * item.quantity);
+      });
+
+      // Chuẩn bị dữ liệu đơn hàng
+      Map<String, dynamic> orderData = {
+        'User': FirebaseAuth.instance.currentUser?.email ?? 'guest@example.com',
+        'TotalPrice': totalPrice,
+        'Status': 'Pending', // hoặc 'Done' nếu muốn
+        'Order_date': Timestamp.now(),
+        'Delivery_date': Timestamp.fromDate(DateTime.now().add(const Duration(days: 7))), // ví dụ giao sau 7 ngày
+      };
+
+      // Thêm đơn hàng vào collection 'orders'
+      await FirebaseFirestore.instance.collection('orders').add(orderData);
+
+      // Xóa giỏ hàng sau khi đặt thành công
+      cartItems.clear();
+      cartItems.refresh();
+
+      Get.snackbar(
+        'Thành công! 🎉',
+        'Đơn hàng đã được ghi nhận và lưu vào hệ thống!',
+        backgroundColor: Colors.green.withOpacity(0.8),
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      Get.snackbar('Lỗi', 'Không thể đặt hàng: $e', backgroundColor: Colors.red);
+    }
   }
 }

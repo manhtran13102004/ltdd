@@ -1,8 +1,10 @@
+// lib/features/shop/screens/cart/widgets/cart_items_dynamic.dart
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/Get.dart';
 import 'package:project/features/shop/controllers/cart/cart_controller.dart';
-import '../../../../../common/widgets/products/cart/cart_item_dynamic.dart';
-import 'package:project/utils/constants/sizes.dart'; // ← THÊM DÒNG NÀY ĐỂ DÙNG TSizes
+import 'package:project/common/widgets/products/cart/cart_item_dynamic.dart';
+import 'package:project/utils/constants/sizes.dart';
 
 class TCartItemsDynamic extends StatelessWidget {
   const TCartItemsDynamic({super.key});
@@ -22,7 +24,8 @@ class TCartItemsDynamic extends StatelessWidget {
         itemCount: cartController.cartItems.length,
         separatorBuilder: (_, __) => const SizedBox(height: TSizes.spaceBtwItems),
         itemBuilder: (_, index) {
-          return TCartItemDynamic(cartItem: cartController.cartItems[index]);
+          final item = cartController.cartItems[index];
+          return TCartItemDynamic(cartItem: item); // Không truyền callback
         },
       );
     });

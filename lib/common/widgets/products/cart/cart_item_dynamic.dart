@@ -1,5 +1,7 @@
+// lib/common/widgets/products/cart/cart_item_dynamic.dart
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/Get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:project/features/shop/controllers/cart/cart_controller.dart';
 import 'package:project/features/shop/models/product_model.dart';
@@ -9,7 +11,7 @@ import 'package:project/common/widgets/images/t_rounded_image.dart';
 import 'package:project/common/widgets/texts/product_title_text.dart';
 import 'package:project/common/widgets/texts/product_price_text.dart';
 import 'package:project/utils/helpers/helper_functions.dart';
-import 'package:project/common/widgets/icons/t_circular_icon.dart'; // ← THÊM DÒNG NÀY ĐỂ DÙNG TCircularIcon
+import 'package:project/common/widgets/icons/t_circular_icon.dart';
 
 class TCartItemDynamic extends StatelessWidget {
   final CartItem cartItem;
@@ -40,7 +42,7 @@ class TCartItemDynamic extends StatelessWidget {
             children: [
               TProductTitleText(title: cartItem.product.title, smallSize: true),
               const SizedBox(height: TSizes.xs),
-              TProductPriceText(price: cartController.getProductLowesPrice(cartItem.product)), // Giá thấp nhất
+              TProductPriceText(price: cartController.getProductLowesPrice(cartItem.product)),
 
               const SizedBox(height: TSizes.spaceBtwItems),
 
@@ -81,33 +83,7 @@ class TCartItemDynamic extends StatelessWidget {
             ],
           ),
         ),
-
-        // Nút "Thanh toán ngay" cho item này
-        ElevatedButton(
-          onPressed: () {
-            // Có thể hiện dialog thanh toán riêng cho item này
-            Get.dialog(
-              AlertDialog(
-                title: const Text('Thanh toán ngay'),
-                content: Text('Thanh toán ${cartItem.quantity} ${cartItem.product.title} ?'),
-                actions: [
-                  TextButton(onPressed: Get.back, child: const Text('Hủy')),
-                  TextButton(
-                    onPressed: () {
-                      Get.back();
-                      Get.snackbar('Thành công!', 'Thanh toán item thành công!');
-                      // Xóa item khỏi giỏ nếu cần
-                      // cartController.cartItems.remove(cartItem);
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            );
-          },
-          style: ElevatedButton.styleFrom(backgroundColor: TColors.primary),
-          child: const Text('Thanh toán ngay'),
-        ),
+        // ĐÃ XÓA NÚT "Thanh toán ngay" HOÀN TOÀN
       ],
     );
   }

@@ -30,8 +30,8 @@ class UserAddressScreen extends StatelessWidget { // Màn hình quản lý đị
             padding: EdgeInsets.all(TSizes.defaultSpace), // Padding chuẩn cho tất cả các cạnh
             child: Column( // Column - sắp xếp các widget theo chiều dọc
               children: [ // Danh sách các widget con
-                TSingleAddress(selectedAddress: true,), // Widget hiển thị địa chỉ được chọn (selectedAddress = true)
-                TSingleAddress(selectedAddress: false,), // Widget hiển thị địa chỉ không được chọn (selectedAddress = false)
+                TSingleAddress(selectedAddress: true, address: 'Số 12, Chùa Bộc, Đống Đa, Hà Nội'), // Widget hiển thị địa chỉ được chọn (selectedAddress = true)
+                TSingleAddress(selectedAddress: false, address: '123 Main St, Los Angeles, CA'), // Widget hiển thị địa chỉ không được chọn (selectedAddress = false)
               ],
             ),
         ),
