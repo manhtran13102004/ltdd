@@ -4,7 +4,8 @@ import 'package:iconsax/iconsax.dart';
 import 'package:project/common/styles/shadows.dart';
 
 import '../../../../features/shop/controllers/product/product_controller.dart';
-import '../../../../features/shop/controllers/wishlist/wishlist_controller.dart'; // ← THÊM IMPORT NÀY
+import '../../../../features/shop/controllers/wishlist/wishlist_controller.dart';
+import '../../../../features/shop/controllers/cart/cart_controller.dart';
 import '../../../../features/shop/models/product_model.dart';
 import '../../../../features/shop/screens/productc_detail/product_detail.dart';
 import '../../../../utils/constants/colors.dart';
@@ -16,8 +17,6 @@ import '../../images/t_rounded_image.dart';
 import '../../texts/product_price_text.dart';
 import '../../texts/product_title_text.dart';
 import '../../texts/t_brand_title_with_verified_icon.dart';
-import 'package:project/features/shop/controllers/cart/cart_controller.dart'; // ← THÊM DÒNG NÀY ĐỂ DÙNG CartController
-
 
 class TProductCardVertical extends StatelessWidget {
   const TProductCardVertical({super.key, required this.product});
@@ -26,9 +25,10 @@ class TProductCardVertical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
-    final controller = ProductController.instance;
-    final wishlistController = Get.put(WishlistController()); // Put controller
-    final salePercentage = controller.calculatorSalePercentage(product.price, product.salePrice);
+    final productController = ProductController.instance;
+    final wishlistController = Get.put(WishlistController()); // Nếu chưa có thì put, có rồi thì lấy
+    final cartController = Get.put(CartController());
+    final salePercentage = productController.calculatorSalePercentage(product.price, product.salePrice);
 
     return GestureDetector(
       onTap: () => Get.to(() => ProductDetail(product: product)),
@@ -61,20 +61,14 @@ class TProductCardVertical extends StatelessWidget {
                       ),
                     ),
 
-                  // TRÁI TIM ĐỎ - BÂY GIỜ BẤM ĐƯỢC + ĐỔI MÀU ĐỘNG
                   Positioned(
                     top: 0,
                     right: 0,
-                    child: Obx(() {
-                      final isWishlisted = wishlistController.isInWishlist(product);
-                      return TCircularIcon(
-                        icon: isWishlisted ? Iconsax.heart5 : Iconsax.heart,
-                        color: isWishlisted ? Colors.red : Colors.grey,
-                        onPressed: () {
-                          wishlistController.toggleWishlist(product);
-                        },
-                      );
-                    }),
+                    child: Obx(() => TCircularIcon(
+                      icon: wishlistController.isInWishlist(product) ? Iconsax.heart5 : Iconsax.heart,
+                      color: wishlistController.isInWishlist(product) ? Colors.red : Colors.grey,
+                      onPressed: () => wishlistController.toggleWishlist(product),
+                    )),
                   ),
                 ],
               ),
@@ -89,7 +83,7 @@ class TProductCardVertical extends StatelessWidget {
                 children: [
                   TProductTitleText(smallSize: true, title: product.title),
                   const SizedBox(height: TSizes.spaceBtwItems / 2),
-                  TBrandTitleWithVerifidedIcon(title: product.brand!.name),
+                  TBrandTitleWithVerifidedIcon(title: product.brand?.name ?? 'Không rõ'),
                 ],
               ),
             ),
@@ -101,14 +95,11 @@ class TProductCardVertical extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: TSizes.sm),
-                  child: TProductPriceText(price: controller.getProductLowesPrice(product)),
+                  child: TProductPriceText(price: productController.getProductLowesPrice(product)),
                 ),
 
-                // Nút + thêm giỏ (nếu mày muốn giữ)
                 InkWell(
-                  onTap: () {
-                    Get.find<CartController>().addToCart(product, 1);
-                  },
+                  onTap: () => cartController.addToCart(product, 1),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(TSizes.cardRadiusMd),
                     bottomRight: Radius.circular(TSizes.productImageRadius),

@@ -11,7 +11,7 @@ class FavouriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final wishlistController = Get.put(WishlistController());
+    final wishlistController = Get.find<WishlistController>();
 
     return Scaffold(
       appBar: TAppBar(
@@ -36,7 +36,6 @@ class FavouriteScreen extends StatelessWidget {
                   );
                 }
 
-                // GRID 2 CỘT GIỐNG HỆT TRANG CHỦ
                 return TGridLayout(
                   itemCount: wishlistController.wishlistItems.length,
                   itemBuilder: (_, index) {

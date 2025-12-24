@@ -1,72 +1,52 @@
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:project/features/shop/models/brand_model.dart';
+import 'package:project/utils/constants/colors.dart';
+import 'package:project/utils/constants/sizes.dart';
+import 'package:project/utils/helpers/helper_functions.dart';
+import 'package:project/common/widgets/images/t_circular_image.dart';
 import 'package:project/common/widgets/texts/t_brand_title_with_verified_icon.dart';
-
-
-import '../../../utils/constants/colors.dart';
-import '../../../utils/constants/enums.dart';
-import '../../../utils/constants/image_strings.dart';
-import '../../../utils/constants/sizes.dart';
-import '../../../utils/helpers/helper_functions.dart';
 import '../containers/rounded_container.dart';
+import 'package:project/utils/constants/enums.dart'; // ← THÊM DÒNG NÀY
 
-import '../images/t_circular_image.dart';
 
-
-/// A card widget representing a brand.
 class TBrandCard extends StatelessWidget {
-  /// Default constructor for the TBrandCard.
-  ///
-  /// Parameters:
-  ///   - brand: The brand model to display.
-  ///   - showBorder: A flag indicating whether to show a border around the card.
-  ///   - onTap: Callback function when the card is tapped.
-  const TBrandCard({
-    super.key,
-    required this.showBorder,
-    this.onTap,
-  });
-
-
-  final bool showBorder;
+  final BrandModel brand;
   final void Function()? onTap;
+
+  const TBrandCard({super.key, required this.brand, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    final isDark = THelperFunctions.isDarkMode(context);
+    final dark = THelperFunctions.isDarkMode(context);
 
     return GestureDetector(
       onTap: onTap,
-      /// Container Design
       child: TRoundedContainer(
-        showBorder: showBorder,
-        backgroundColor: Colors.transparent,
         padding: const EdgeInsets.all(TSizes.sm),
+        showBorder: true,
+        backgroundColor: Colors.transparent,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            /// -- Icon
             Flexible(
               child: TCircularImage(
-                image: TImages.google,
-                isNetworkImage: false,
+                image: brand.image,
+                isNetworkImage: true,
                 backgroundColor: Colors.transparent,
-                overlayColor: isDark ? TColors.white : TColors.primary,
               ),
             ),
             const SizedBox(width: TSizes.spaceBtwItems / 2),
-
-            /// -- Texts
-            // [Expanded] & Column [MainAxisSize.min] is important to keep the elements in the vertical center and also
-            // to keep text inside the boundaries.
             Expanded(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const TBrandTitleWithVerifidedIcon(title: 'Hà Nội 3', brandTextSize: TextSizes.large),
+                  TBrandTitleWithVerifidedIcon(
+                    title: brand.name,
+                    brandTextSize: TextSizes.large,
+                  ),
                   Text(
-                    '15 products',
+                    '${brand.productCount} sản phẩm',
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),

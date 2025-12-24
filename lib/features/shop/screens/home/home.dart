@@ -18,6 +18,7 @@ import '../../../../common/widgets/images/t_rounded_image.dart'; // Import widge
 import '../../../../common/widgets/layouts/grid_layout.dart'; // Import widget layout dạng grid
 import '../../../../common/widgets/products/cart/cart_menu_icon.dart'; // Import widget icon giỏ hàng (có thể không dùng trực tiếp)
 import '../../../../common/widgets/products/product_cards/product_card_vertical.dart'; // Import widget card sản phẩm dọc
+import '../../../../common/widgets/products/product_cards/product_card_horizontal.dart'; // Import widget card sản phẩm dọc
 import '../../../../common/widgets/texts/section_heading.dart'; // Import widget tiêu đề section
 import '../../../../utils/constants/colors.dart'; // Import màu sắc chuẩn
 import '../../../../utils/constants/image_strings.dart'; // Import đường dẫn hình ảnh chuẩn (có thể không dùng trực tiếp)

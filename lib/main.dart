@@ -6,8 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:project/firebase_options.dart';
 import 'package:project/repository/auth_repo/AuthenticationRepository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-
+import 'package:project/features/shop/controllers/wishlist/wishlist_controller.dart'; // ← THÊM ĐỂ DÙNG WishlistController
+import 'package:project/features/shop/controllers/cart/cart_controller.dart'; // ← THÊM ĐỂ DÙNG CartController
 
 Future<void> main() async {
   // Hàm main là điểm bắt đầu của app Flutter
@@ -31,15 +31,13 @@ Future<void> main() async {
   FlutterNativeSplash.preserve;
   // Giữ splash screen hiển thị
   // Tránh màn hình trắng khi app đang khởi tạo (Firebase, Supabase...)
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform
-    // Khởi tạo Firebase theo nền tảng (Android / iOS / Web)
-    // DefaultFirebaseOptions được sinh ra từ flutterfire configure
-  ).then(
-          (value)=> Get.put(AuthenticationRepository())
-    // Sau khi Firebase khởi tạo xong:
-    // Đưa AuthenticationRepository vào GetX dependency injection
-    // => Có thể gọi ở bất kỳ đâu trong app bằng Get.find()
-  );
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  ).then((value) {
+    Get.put(AuthenticationRepository());
+    Get.put(WishlistController()); // ← THÊM DÒNG NÀY ĐỂ KHỞI TẠO WISHLIST
+    Get.put(CartController());     // ← THÊM DÒNG NÀY ĐỂ KHỞI TẠO CART (tránh lỗi tương tự sau)
+  });
 
   runApp(const App());
   // Chạy ứng dụng Flutter
