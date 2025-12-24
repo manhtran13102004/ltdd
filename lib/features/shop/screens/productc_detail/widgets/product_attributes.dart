@@ -68,7 +68,7 @@ class TProductAttributes extends StatelessWidget {
                        padding: const EdgeInsets.only(left: TSizes.md), // Thụt vào cho đẹp
                        child: TProductPriceText(
                          price: controller.getVariationPrice(),
-                         isSmall: false, // Để to hơn tí cho nổi bật
+                         isLarge: true, // Để to hơn tí cho nổi bật
                          // Nếu widget TProductPriceText của mày hỗ trợ maxLines và overflow thì thêm:
                          // maxLines: 2,
                          // overflow: TextOverflow.ellipsis,

@@ -81,21 +81,21 @@ class TProductCardVertical extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TProductTitleText(smallSize: true, title: product.title),
-                  const SizedBox(height: TSizes.spaceBtwItems / 2),
-                  TBrandTitleWithVerifidedIcon(title: product.brand?.name ?? 'Không rõ'),
+                  TProductTitleText(smallSize: false, title: product.title),
+                  // const SizedBox(height: TSizes.spaceBtwItems / 2),
+                  // TBrandTitleWithVerifidedIcon(title: product.brand?.name ?? 'Không rõ'),
                 ],
               ),
             ),
 
-            const Spacer(),
+            // const Spacer(),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: TSizes.sm),
-                  child: TProductPriceText(price: productController.getProductLowesPrice(product)),
+                  child: TProductPriceText(price: productController.getProductLowesPrice(product), color: Colors.red, ),
                 ),
 
                 InkWell(
