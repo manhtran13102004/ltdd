@@ -6,7 +6,7 @@ class OrdersModel {
   final String id;
   final String userEmail;
   final double totalPrice;
-  final String status; // "Done", "Pending", "Cancelled"...
+  final String status;
   final Timestamp orderDate;
   final Timestamp? deliveryDate;
 
@@ -23,22 +23,22 @@ class OrdersModel {
     final data = doc.data() as Map<String, dynamic>;
     return OrdersModel(
       id: doc.id,
-      userEmail: data['User'] ?? '',
-      totalPrice: (data['TotalPrice'] as num).toDouble(),
-      status: data['Status'] ?? 'Pending',
-      orderDate: data['Order_date'] ?? Timestamp.now(),
-      deliveryDate: data['Delivery_date'],
+      userEmail: data['User'] ?? '', // ← ĐÚNG FIELD "User" (U hoa)
+      totalPrice: (data['TotalPrice'] as num?)?.toDouble() ?? 0.0, // ← "TotalPrice" (không gạch dưới)
+      status: data['Status'] ?? 'Done', // ← "Status"
+      orderDate: data['Order_date'] ?? Timestamp.now(), // ← "Order_date" (gạch dưới)
+      deliveryDate: data['Delivery_date'], // ← "Delivery_date" (gạch dưới)
     );
   }
 
-  // Để hiển thị ngày đẹp
   String get formattedOrderDate {
-    return '${orderDate.toDate().day}/${orderDate.toDate().month}/${orderDate.toDate().year}';
+    final date = orderDate.toDate();
+    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
   }
 
   String get formattedDeliveryDate {
-    if (deliveryDate == null) return 'Chưa giao';
+    if (deliveryDate == null) return 'Chưa xác định';
     final date = deliveryDate!.toDate();
-    return '${date.day}/${date.month}/${date.year}';
+    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
   }
 }

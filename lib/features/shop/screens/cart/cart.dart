@@ -21,7 +21,7 @@ class CartScreen extends StatelessWidget {
       final orderData = {
         'User': FirebaseAuth.instance.currentUser?.email ?? 'guest@example.com', // Lấy email user hiện tại, nếu chưa login thì dùng guest
         'TotalPrice': totalPrice, // Tổng tiền đơn hàng
-        'Status': 'Pending', // Trạng thái đơn hàng ban đầu là Pending
+        'Status': 'Done', // Trạng thái đơn hàng ban đầu là Pending
         'Order_date': Timestamp.now(), // Ngày đặt hàng (thời gian hiện tại)
         'Delivery_date': Timestamp.fromDate(DateTime.now().add(const Duration(days: 7))), // Ngày giao dự kiến (7 ngày sau)
       };

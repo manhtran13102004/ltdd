@@ -48,7 +48,7 @@ class SettingsScreen extends StatelessWidget { // Màn hình Settings - Stateles
 
                   TSettingsMenuTitle(icon: Iconsax.safe_home, title: 'My Address', subTitle: 'Thông tin vận chuyển', onTap: () => Get.to(() => const UserAddressScreen())), // Menu item "My Address" - khi click sẽ navigate đến màn hình địa chỉ
                   TSettingsMenuTitle(icon: Iconsax.shopping_cart, title: 'My Cart', subTitle: 'Giỏ hàng của tôi', onTap: () => Get.to(() => CartScreen()),), // Menu item "My Cart" - callback chưa được implement
-                  TSettingsMenuTitle(icon: Iconsax.bag_tick, title: 'My Orders', subTitle: 'Đơn hàng của tôi',onTap: () => Get.to(() => const OrdersScreen ())), // Menu item "My Orders" - khi click sẽ navigate đến màn hình đơn hàng
+                  TSettingsMenuTitle(icon: Iconsax.bag_tick, title: 'My Orders', subTitle: 'Đơn hàng của tôi',onTap: () => Get.to(() => const OrderScreen ())), // Menu item "My Orders" - khi click sẽ navigate đến màn hình đơn hàng
                   TSettingsMenuTitle(icon: Iconsax.bank, title: 'Bank Account', subTitle: 'Set shopping delivery address', onTap: (){},), // Menu item "Bank Account" - callback chưa được implement (subTitle có thể sai)
                   TSettingsMenuTitle(icon: Iconsax.discount_shape, title: 'My Coupons', subTitle: 'Set shopping delivery address', onTap: (){},), // Menu item "My Coupons" - callback chưa được implement (subTitle có thể sai)
                   TSettingsMenuTitle(icon: Iconsax.notification, title: 'Notifications', subTitle: 'Set shopping delivery address', onTap: (){},), // Menu item "Notifications" - callback chưa được implement (subTitle có thể sai)

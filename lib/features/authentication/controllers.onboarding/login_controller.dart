@@ -34,14 +34,14 @@ class LoginController extends GetxController { // Controller xử lý logic đă
       final auth = AuthenticationRepository.instance; // Lấy instance của AuthenticationRepository
       await auth.signInWithGoogle(); // Gọi hàm đăng nhập Google từ repository
       UserModel userGoogle = UserModel( // Tạo UserModel từ thông tin Google
-          id :'', // ID rỗng (sẽ được tạo tự động)
-          firstName: '', // FirstName rỗng (có thể lấy từ Google profile)
-          lastName: '', // LastName rỗng (có thể lấy từ Google profile)
-          username: '', // Username rỗng
-          gender: '', // Gender rỗng
-          email: auth.getUserEmail, // Email từ Google account
-          password: '123456789', // Password mặc định (không an toàn, nên thay đổi)
-          phoneNo: '', // PhoneNo rỗng
+        id :'', // ID rỗng (sẽ được tạo tự động)
+        firstName: '', // FirstName rỗng (có thể lấy từ Google profile)
+        lastName: '', // LastName rỗng (có thể lấy từ Google profile)
+        username: '', // Username rỗng
+        gender: '', // Gender rỗng
+        email: auth.getUserEmail, // Email từ Google account
+        password: '123456789', // Password mặc định (không an toàn, nên thay đổi)
+        phoneNo: '', // PhoneNo rỗng
         dateOfBirth: '', // DateOfBirth rỗng
 
       );

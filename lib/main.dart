@@ -8,6 +8,8 @@ import 'package:project/repository/auth_repo/AuthenticationRepository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:project/features/shop/controllers/wishlist/wishlist_controller.dart'; // ← THÊM ĐỂ DÙNG WishlistController
 import 'package:project/features/shop/controllers/cart/cart_controller.dart'; // ← THÊM ĐỂ DÙNG CartController
+import 'package:project/features/shop/controllers/order/orders_controller.dart';
+
 
 Future<void> main() async {
   // Hàm main là điểm bắt đầu của app Flutter
